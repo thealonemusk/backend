@@ -1,16 +1,13 @@
-import io
 import os
-from PIL import Image
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import FileResponse
 import numpy as np
 import torch
 import cv2
 from tqdm import tqdm
 from torch.autograd import Variable
-
-import matplotlib.pyplot as plt
+import tempfile
 
 app = FastAPI()
 
@@ -21,10 +18,10 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  
-    allow_headers=["*"],  
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 UPLOAD_DIRECTORY = "uploads"
@@ -32,7 +29,6 @@ UPLOAD_DIRECTORY = "uploads"
 if not os.path.exists(UPLOAD_DIRECTORY):
     os.makedirs(UPLOAD_DIRECTORY)
 
-import torch.nn as nn
 
 class Encoder(nn.Module):
     def __init__(self):
@@ -175,13 +171,16 @@ async def dehaze_image(image: UploadFile = File(...)):
         temp_file_path = "uploads/temp_one_image.jpg"
         cv2.imwrite(temp_file_path, mirror_image_horizontal)
 
-        # Return the image file as a response
-        # return FileResponse(temp_file_path, media_type="image/jpeg")
+        # Process the image and save it to a temporary file
+        temp_file_path = tempfile.mktemp(suffix=".jpg")
+        cv2.imwrite(temp_file_path, mirror_image_horizontal)
+
+        # Return the processed image file as a response
         return FileResponse(temp_file_path, media_type="image/jpeg", headers={"Content-Disposition": "attachment; filename=temp_one_image.jpg"})
     
     except Exception as e:
         return {"error": str(e)}
-    
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000)
