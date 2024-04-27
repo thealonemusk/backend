@@ -6,4 +6,4 @@ uvicorn
 gunicorn 
 virtualenv
 fastapi
-
+opencv-python
