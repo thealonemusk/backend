@@ -8,6 +8,7 @@ import cv2
 from tqdm import tqdm
 from torch.autograd import Variable
 import tempfile
+import torch.nn as nn
 
 app = FastAPI()
 
