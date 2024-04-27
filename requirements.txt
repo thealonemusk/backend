@@ -8,3 +8,4 @@ virtualenv
 fastapi
 python-multipart
 opencv-python
+Pillow

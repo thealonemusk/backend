@@ -9,6 +9,8 @@ from tqdm import tqdm
 from torch.autograd import Variable
 import tempfile
 import torch.nn as nn
+from PIL import Image
+
 
 app = FastAPI()
 
