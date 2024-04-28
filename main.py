@@ -193,6 +193,6 @@ async def dehaze_image(image: UploadFile = File(...)):
         raise Exception(400, str(e))
     
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0",port=8000)
