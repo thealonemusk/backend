@@ -141,7 +141,7 @@ async def dehaze_image(image: UploadFile = File(...)):
 
         #load model
         try:
-            model = torch.load(r'C:\Users\agrim\OneDrive\Desktop\minor-project\backend1\dehaze_model.pkl', map_location=torch.device('cpu'))
+            model = torch.load(r'dehaze_model.pkl', map_location=torch.device('cpu'))
             encoder = model[0]
             decoder = model[1]
         except Exception as e:
