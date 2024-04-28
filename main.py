@@ -13,10 +13,10 @@ from torch.autograd import Variable
 import matplotlib.pyplot as plt
 
 app = FastAPI()
+PORT = os.getenv("PORT")
 
 origins = [
-    "http://localhost:3000",
-    "localhost:3000",
+    "*"
 ]
 
 app.add_middleware(
@@ -192,7 +192,6 @@ async def dehaze_image(image: UploadFile = File(...)):
     except Exception as e:
         raise Exception(400, str(e))
     
-
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0",port=8000)
+    uvicorn.run(app, host="0.0.0.0",port=PORT)
